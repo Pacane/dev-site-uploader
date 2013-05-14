@@ -15,27 +15,33 @@ package com.google.gwt.site.uploader;
 
 public class Credentials {
 
-  private String host;
-  private String username;
-  private String password;
+	private String host;
+	private String username;
+	private String password;
+	private int port;
 
-  public Credentials(String host, String username, String password) {
-    this.host = host;
-    this.username = username;
-    this.password = password;
+	public Credentials(String host, int port, String username, String password) {
+		this.host = host;
+		this.port = port;
+		this.username = username;
+		this.password = password;
 
-  }
+	}
 
-  public String getHost() {
-    return host;
-  }
+	public String getHost() {
+		return host;
+	}
 
-  public String getUsername() {
-    return username;
-  }
+	public String getUsername() {
+		return username;
+	}
 
-  public String getPassword() {
-    return password;
-  }
+	public String getPassword() {
+		return password;
+	}
+
+	public int getPort() {
+		return port;
+	}
 
 }
