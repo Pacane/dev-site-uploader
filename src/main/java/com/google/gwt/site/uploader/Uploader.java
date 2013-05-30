@@ -117,12 +117,9 @@ public class Uploader {
 				int port = Integer.parseInt(portString);
 				return new Credentials(host, port, username, password);
 			} catch (NumberFormatException e) {
-				System.out
-				.println("error while parsing port");
-		throw new RuntimeException(
-				"error while parsing port");
+				System.out.println("error while parsing port");
+				throw new RuntimeException("error while parsing port");
 			}
-			
 
 		} catch (IOException e) {
 			System.out.println("can not load credential files");
@@ -163,7 +160,7 @@ public class Uploader {
 
 	private static boolean isBinaryFile(String path) {
 		return path.endsWith(".png") || path.endsWith(".jpg")
-				|| path.endsWith(".gif");
+				|| path.endsWith(".jpeg") || path.endsWith(".gif");
 	}
 
 }

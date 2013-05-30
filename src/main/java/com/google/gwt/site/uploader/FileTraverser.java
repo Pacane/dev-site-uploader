@@ -50,7 +50,8 @@ public class FileTraverser {
 	private boolean shouldFileBeUploaded(String fileName) {
 		return fileName.endsWith(".html") || fileName.endsWith(".css")
 				|| fileName.endsWith(".js") || fileName.endsWith(".png")
-				|| fileName.endsWith(".jpg") || fileName.endsWith(".gif");
+				|| fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")
+				|| fileName.endsWith(".gif");
 	}
 
 }
