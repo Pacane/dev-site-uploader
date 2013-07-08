@@ -14,17 +14,16 @@
 
 package com.google.gwt.site.uploader;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
-
-import com.google.gwt.site.uploader.model.LocalResource;
 
 /**
- * A FileTraverser gets all resources under a certain directory.
+ * A HashCalculator calculates hashes of files.
  */
-public interface FileTraverser {
+public interface HashCalculator {
+
   /**
-   * Get all resources under a certain directory.
+   * Calculates the hash of a given file.
    */
-  List<LocalResource> getLocalResources() throws IOException;
+  String calculateHash(File file) throws IOException;
 }

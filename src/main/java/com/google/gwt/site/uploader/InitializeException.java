@@ -14,17 +14,14 @@
 
 package com.google.gwt.site.uploader;
 
-import java.io.IOException;
-import java.util.List;
-
-import com.google.gwt.site.uploader.model.LocalResource;
-
 /**
- * A FileTraverser gets all resources under a certain directory.
+ * A InitializeException is thrown when the file uploader could not be initialized.
  */
-public interface FileTraverser {
-  /**
-   * Get all resources under a certain directory.
-   */
-  List<LocalResource> getLocalResources() throws IOException;
+public class InitializeException extends Exception {
+
+  private static final long serialVersionUID = 8487123279213835434L;
+
+  public InitializeException(String message, Exception e) {
+    super(message, e);
+  }
 }
