@@ -1,11 +1,11 @@
 /*
- * Copyright 2013 Daniel Kurka
- * 
+ * Copyright 2013 Google Inc.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -15,23 +15,22 @@
 package com.google.gwt.site.uploader;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
-public class MarkdownFile {
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 
-	private final String path;
-	private final File file;
+public class HashCalculatorSha1Impl implements HashCalculator {
 
-	public MarkdownFile(String path, File file) {
-		this.path = path;
-		this.file = file;
-
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public File getFile() {
-		return file;
-	}
+  @Override
+  public String calculateHash(File file) throws IOException {
+    FileInputStream fis = null;
+    try {
+      fis = new FileInputStream(file);
+      return DigestUtils.sha1Hex(fis);
+    } finally {
+      IOUtils.closeQuietly(fis);
+    }
+  }
 }
