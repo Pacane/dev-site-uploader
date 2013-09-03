@@ -96,9 +96,7 @@ public class ResourceUploaderTest {
   }
 
   @Test
-  public void testDeleteResource() throws ClassNotFoundException, InstantiationException,
-      IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException,
-      InvocationTargetException, InitializeException {
+  public void testDeleteResource() throws Exception {
 
     Key key1 = createKey();
     Key key2 = createKey();

@@ -14,19 +14,18 @@
 
 package com.google.gwt.site.uploader;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Test for {@link HashCalculatorSha1Impl}.
  */
 public class HashCalculatorTest {
   @Test
-  public void testHashGeneration() throws NoSuchAlgorithmException, IOException {
+  public void testHashGeneration() throws IOException {
 
     String ap = getClass().getResource("/com/google/gwt/site/uploader/").getFile();
     HashCalculator hc = new HashCalculatorSha1Impl();
