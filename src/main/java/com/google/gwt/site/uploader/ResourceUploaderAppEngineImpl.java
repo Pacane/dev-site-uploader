@@ -14,17 +14,11 @@
 
 package com.google.gwt.site.uploader;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.*;
 import com.google.appengine.repackaged.com.google.api.client.util.Base64;
 import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
 import com.google.appengine.tools.remoteapi.RemoteApiOptions;
-import com.google.gwt.site.uploader.model.Credentials;
 import com.google.gwt.site.uploader.model.Resource;
-
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,13 +55,13 @@ public class ResourceUploaderAppEngineImpl implements ResourceUploader {
   private static final String DOC_MODEL = "DocModel";
   private static final Logger logger = Logger.getLogger(ResourceUploaderAppEngineImpl.class
       .getName());
-  private final Credentials credentials;
+  private final RemoteApiOptions credentials;
   private final DatastoreService ds;
   private final RemoteApiInstaller installer;
   private boolean isInitialized;
   private final KeyProvider keyProvider;
 
-  public ResourceUploaderAppEngineImpl(DatastoreService ds, Credentials credentials,
+  public ResourceUploaderAppEngineImpl(DatastoreService ds, RemoteApiOptions credentials,
       RemoteApiInstaller installer, KeyProvider keyProvider) {
     this.ds = ds;
     this.credentials = credentials;
@@ -198,7 +192,7 @@ public class ResourceUploaderAppEngineImpl implements ResourceUploader {
       protocol = "https://";
     }
 
-    return protocol + credentials.getHost() + ":" + credentials.getPort() + "/hash?count=" + count;
+    return protocol + credentials.getHostname() + ":" + credentials.getPort() + "/hash?count=" + count;
   }
 
   @Override
@@ -206,16 +200,8 @@ public class ResourceUploaderAppEngineImpl implements ResourceUploader {
     if (isInitialized) {
       throw new IllegalStateException("app engine remote api was already initialized");
     }
-    String username = credentials.getUsername();
-    String password = credentials.getPassword();
-    String host = credentials.getHost();
-    int port = credentials.getPort();
-
-    RemoteApiOptions options =
-        new RemoteApiOptions().server(host, port).credentials(username, password);
-
     try {
-      installer.install(options);
+      installer.install(credentials);
       isInitialized = true;
     } catch (IOException e) {
       logger.log(Level.SEVERE, "can not initialize app engine", e);
