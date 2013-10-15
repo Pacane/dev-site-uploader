@@ -55,6 +55,7 @@ public class FileTraverserTest {
         "folder1/htmlfile2.html")));
     expectedFiles.add(new LocalResource("folder1/jsfile1.js", "7", new File(baseDir,
         "folder1/jsfile1.js")));
+    expectedFiles.add(new LocalResource("package-list", "8", new File(baseDir, "package-list")));
   }
 
   @Test
