@@ -21,7 +21,6 @@ import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
 import com.google.appengine.tools.remoteapi.RemoteApiOptions;
 import com.google.gwt.site.uploader.ResourceUploaderAppEngineImpl.KeyProvider;
-import com.google.gwt.site.uploader.model.Credentials;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
@@ -43,14 +42,13 @@ import java.util.List;
 public class ResourceUploaderTest {
 
   private DatastoreService ds;
-  private Credentials credentials;
   private RemoteApiInstaller remoteApiInstaller;
   private ResourceUploaderAppEngineImpl resourceUploader;
   private KeyProvider keyProvider;
 
   @Before
   public void setup() {
-    credentials = new Credentials("host", 80, "user", "pw");
+    RemoteApiOptions credentials = new RemoteApiOptions();
     ds = Mockito.mock(DatastoreService.class);
 
     remoteApiInstaller = Mockito.mock(RemoteApiInstaller.class);

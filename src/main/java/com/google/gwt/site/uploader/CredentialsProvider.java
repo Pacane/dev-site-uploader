@@ -14,75 +14,76 @@
 
 package com.google.gwt.site.uploader;
 
+import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.apache.commons.io.IOUtils;
-
-import com.google.gwt.site.uploader.model.Credentials;
 
 public class CredentialsProvider {
 
   private static final Logger logger = Logger.getLogger(CredentialsProvider.class.getName());
 
-  public Credentials readCredentialsFromFile(String credentialsFile) {
-    FileInputStream inputStream = null;
+  public RemoteApiOptions readCredentialsFromFile(String credentialsFile) throws IOException {
 
+    String serialized = Files.toString(new File(credentialsFile), Charsets.UTF_8);
+    Map<String, List<String>> props = parseProperties(serialized);
+
+    checkOneProperty(props, "host");
+    checkOneProperty(props, "email");
+
+    String host = props.get("host").get(0);
+    String email = props.get("email").get(0);
+
+    int port = 443;
     try {
-      inputStream = new FileInputStream(new File(credentialsFile));
-      Properties properties = new Properties();
-      properties.load(inputStream);
-      String username = properties.getProperty("username");
-      if (username == null) {
-
-        logger.log(Level.SEVERE, "No username found in credentials file, are you missing username=something");
-
-        throw new RuntimeException(
-            "No username found in credentials file, are you missing username=something");
+      if (props.containsKey("port")) {
+        checkOneProperty(props, "port");
+        port = Integer.parseInt(props.get("port").get(0));
       }
-
-      String password = properties.getProperty("password");
-      if (password == null) {
-
-        logger.log(Level.SEVERE, "No password found in credentials file, are you missing password=something");
-
-        throw new RuntimeException(
-            "No password found in credentials file, are you missing password=something");
-      }
-
-      String host = properties.getProperty("host");
-      if (host == null) {
-        logger.log(Level.SEVERE, "No host found in credentials file, are you missing host=something");
-
-        throw new RuntimeException(
-            "No host found in credentials file, are you missing host=something");
-      }
-
-      String portString = properties.getProperty("port");
-      if (portString == null) {
-        logger.log(Level.SEVERE, "No port found in credentials file, are you missing port=something");
-
-        throw new RuntimeException(
-            "No port found in credentials file, are you missing port=something");
-      }
-      try {
-        int port = Integer.parseInt(portString);
-        return new Credentials(host, port, username, password);
-      } catch (NumberFormatException e) {
-        logger.log(Level.SEVERE, "error while parsing port", e);
-        throw new RuntimeException("error while parsing port");
-      }
-
-    } catch (IOException e) {
-      logger.log(Level.SEVERE, "can not load credential files", e);
-
-      throw new RuntimeException("can not load credential files", e);
-    } finally {
-      IOUtils.closeQuietly(inputStream);
+    } catch (NumberFormatException e) {
+      logger.log(Level.SEVERE, "error while parsing port", e);
+      throw new RuntimeException("error while parsing port");
     }
+
+    return new RemoteApiOptions()
+        .server(host, port)
+        .reuseCredentials(email, serialized);
+  }
+
+  // taken from RemoteApiInstaller
+  private static void checkOneProperty(Map<String, List<String>> props, String key)
+      throws IOException {
+    if (props.get(key).size() != 1) {
+      String message = "invalid credential file (should have one property named '" + key + "')";
+      throw new IOException(message);
+    }
+  }
+
+  // taken from RemoteApiInstaller
+  private static Map<String, List<String>> parseProperties(String serializedCredentials) {
+    Map<String, List<String>> props = new HashMap<String, List<String>>();
+    for (String line : serializedCredentials.split("\n")) {
+      line = line.trim();
+      if (!line.startsWith("#") && line.contains("=")) {
+        int firstEqual = line.indexOf('=');
+        String key = line.substring(0, firstEqual);
+        String value = line.substring(firstEqual + 1);
+        List<String> values = props.get(key);
+        if (values == null) {
+          values = new ArrayList<String>();
+          props.put(key, values);
+        }
+        values.add(value);
+      }
+    }
+    return props;
   }
 }
