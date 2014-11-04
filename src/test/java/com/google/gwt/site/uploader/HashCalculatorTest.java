@@ -14,11 +14,11 @@
 
 package com.google.gwt.site.uploader;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test for {@link HashCalculatorSha1Impl}.

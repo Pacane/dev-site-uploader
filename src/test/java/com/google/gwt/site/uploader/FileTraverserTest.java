@@ -14,8 +14,6 @@
 
 package com.google.gwt.site.uploader;
 
-import com.google.gwt.site.uploader.model.LocalResource;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +23,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import com.google.gwt.site.uploader.model.LocalResource;
 
 /**
  * Test for {@link FileTraverserFileSystemImpl}.

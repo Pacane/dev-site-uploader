@@ -14,12 +14,12 @@
 
 package com.google.gwt.site.uploader;
 
-import com.google.gwt.site.uploader.model.LocalResource;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.google.gwt.site.uploader.model.LocalResource;
 
 public class FileTraverserFileSystemImpl implements FileTraverser {
 

@@ -14,10 +14,6 @@
 
 package com.google.gwt.site.uploader;
 
-import com.google.appengine.tools.remoteapi.RemoteApiOptions;
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 public class CredentialsProvider {
 

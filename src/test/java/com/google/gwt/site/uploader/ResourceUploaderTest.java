@@ -14,13 +14,12 @@
 
 package com.google.gwt.site.uploader;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.Text;
-import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
-import com.google.appengine.tools.remoteapi.RemoteApiOptions;
-import com.google.gwt.site.uploader.ResourceUploaderAppEngineImpl.KeyProvider;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
@@ -29,12 +28,13 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
+import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
+import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+import com.google.gwt.site.uploader.ResourceUploaderAppEngineImpl.KeyProvider;
 
 /**
  * Test for {@link ResourceUploaderAppEngineImpl}.
@@ -55,9 +55,7 @@ public class ResourceUploaderTest {
 
     keyProvider = Mockito.mock(ResourceUploaderAppEngineImpl.KeyProvider.class);
 
-    resourceUploader =
-        new ResourceUploaderAppEngineImpl(ds, credentials, remoteApiInstaller, keyProvider);
-
+    resourceUploader = new ResourceUploaderAppEngineImpl(ds, credentials, remoteApiInstaller, keyProvider);
   }
 
   @Test(expected = IllegalStateException.class)
@@ -77,19 +75,16 @@ public class ResourceUploaderTest {
       resourceUploader.uploadResource(null, null, null);
       Assert.fail("expected exception did not occur");
     } catch (IllegalStateException e) {
-
     }
     try {
       resourceUploader.deleteResource(null);
       Assert.fail("expected exception did not occur");
     } catch (IllegalStateException e) {
-
     }
     try {
       resourceUploader.getRemoteHashes();
       Assert.fail("expected exception did not occur");
     } catch (IllegalStateException e) {
-
     }
   }
 
@@ -114,7 +109,6 @@ public class ResourceUploaderTest {
     Assert.assertSame(key1, keys.get(0));
 
     Assert.assertSame(key2, keys.get(1));
-
   }
 
   private Key createKey() throws InstantiationException, IllegalAccessException,
@@ -147,7 +141,8 @@ public class ResourceUploaderTest {
     List<Entity> entities = argumentCaptor.getAllValues();
 
     Assert.assertSame(key1, entities.get(0).getKey());
-    Assert.assertEquals(IOUtils.toString(new FileInputStream(file)), ((Text)entities.get(0).getProperty("html")).getValue());
+    Assert.assertEquals(IOUtils.toString(new FileInputStream(file)),
+            ((Text)entities.get(0).getProperty("html")).getValue());
 
     Assert.assertSame(key2, entities.get(1).getKey());
     Assert.assertEquals("hash1" , entities.get(1).getProperty("hash"));

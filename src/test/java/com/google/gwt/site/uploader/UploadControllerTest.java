@@ -14,17 +14,17 @@
 
 package com.google.gwt.site.uploader;
 
-import com.google.gwt.site.uploader.model.LocalResource;
-import com.google.gwt.site.uploader.model.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import com.google.gwt.site.uploader.model.LocalResource;
+import com.google.gwt.site.uploader.model.Resource;
 
 /**
  * Test for {@link UploadController}.
@@ -117,7 +117,6 @@ public class UploadControllerTest {
     Mockito.verify(resourceUploader, Mockito.times(0)).uploadResource(Mockito.anyString(),
         Mockito.anyString(), Mockito.<File> anyObject());
     Mockito.verify(resourceUploader, Mockito.times(1)).deleteResource("fileName6");
-
   }
 
   @Test
@@ -146,7 +145,6 @@ public class UploadControllerTest {
     Mockito.verify(resourceUploader, Mockito.times(1)).uploadResource("fileName6", "hash6",
         mockFile);
     Mockito.verify(resourceUploader, Mockito.times(0)).deleteResource(Mockito.anyString());
-
   }
 
   @Test
