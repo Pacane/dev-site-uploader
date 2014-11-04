@@ -43,7 +43,7 @@ public class SaveCredentials {
     char[] password = System.console().readPassword("Password: ");
 
     RemoteApiOptions options =
-        new RemoteApiOptions().server("gwtproject-demo.appspot.com", 443).credentials(email, new String(password));
+        new RemoteApiOptions().server("docs-site.appspot.com", 443).credentials(email, new String(password));
     RemoteApiInstaller installer = new RemoteApiInstaller();
     installer.install(options);
     // test the connection
