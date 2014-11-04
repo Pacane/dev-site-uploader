@@ -53,8 +53,7 @@ public class ResourceUploaderAppEngineImpl implements ResourceUploader {
 
   private static final String DOC_HASH = "DocHash";
   private static final String DOC_MODEL = "DocModel";
-  private static final Logger logger = Logger.getLogger(ResourceUploaderAppEngineImpl.class
-      .getName());
+  private static final Logger logger = Logger.getLogger(ResourceUploaderAppEngineImpl.class.getName());
   private final RemoteApiOptions credentials;
   private final DatastoreService ds;
   private final RemoteApiInstaller installer;
