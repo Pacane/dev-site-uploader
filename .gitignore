@@ -10,8 +10,6 @@ war/gwt_bree/
 gwt-unitCache/
 */.gwt/
 */gen*
-app/src/main/webapp/App/
-app/src/main/webapp/WEB-INF/deploy/
 
 # boilerplate generated classes #
 .apt_generated/
